@@ -45,7 +45,7 @@ module Spree
           paymill_transaction = Paymill::Transaction.create payment: payment_id,
             amount: money.to_i,
             currency: preferences[:currency],
-            description: "Order: #{payment_id}"
+            description: "#{options[:order_id].partition("-").first} / #{options[:email]} / #{options[:billing_address][:name]}"
 
           Rails.logger.info "Paymill transaction completed: #{paymill_transaction.id} - #{paymill_transaction.response_code}"
           Rails.logger.info "Paymill transaction details: #{paymill_transaction.inspect}"
