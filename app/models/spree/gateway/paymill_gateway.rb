@@ -93,6 +93,10 @@ module Spree
     def auto_capture?
       true
     end
+    
+    def cancel(response_code)
+      response_code
+    end
 
   end
 end
