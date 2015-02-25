@@ -4,11 +4,11 @@ module Spree
   class Gateway::PaymillGateway < Gateway
 
     OK_RESPONSE = 20000
-    DEFAULT_CURRENCY = "GBP"
+    DEFAULT_CURRENCY = "EUR"
 
     preference :private_key, :string
     preference :public_key, :string
-    preference :currency, :string, default: "GBP"
+    preference :currency, :string, default: "EUR"
 
     def create_profile(payment)
       paymill_transaction = payment.source
@@ -93,11 +93,14 @@ module Spree
     def auto_capture?
       true
     end
+<<<<<<< HEAD
     
     def cancel(response_code)
       response_code
     end
 
+=======
+>>>>>>> master
   end
 end
 
