@@ -1,18 +1,48 @@
 <fieldset data-hook="credit_card">
   <% if payment.source && payment.source.transaction_id && payment.source.transaction_response && payment.source.transaction_response.payment %>
-    <legend align="center"><%= Spree.t(:credit_card) %></legend>
-    <div class="row">
-      <div class="alpha twelve columns">
-        <dl>
-          <dt><%= Spree.t(:transaction) %>:</dt>
-          <dd><%= link_to payment.source.transaction_id, "https://app.paymill.com/transactions/#{payment.source.transaction_id}", target: "_blank" %></dd>
-          <dt><%= Spree.t(:card) %>:</dt>
-          <dd>XXXX-XXXX-XXXX-<%= payment.source.transaction_response.payment["last4"] %></dd>
-          <dt><%= Spree.t(:expiration) %>:</dt>
-          <dd><%= payment.source.transaction_response.payment["expire_month"] %>/<%= payment.source.transaction_response.payment["expire_year"] %></dd>
-        </dl>
+  
+    <% if payment.source.transaction_response.payment["type"] == "creditcard" %>
+      <legend align="center"><%= Spree.t(:credit_card) %></legend>
+      <div class="row">
+        <div class="alpha twelve columns">
+          <dl>
+            <dt><%= Spree.t(:transaction) %>:</dt>
+            <dd><%= link_to payment.source.transaction_id, "https://app.paymill.com/transactions/#{payment.source.transaction_id}", target: "_blank" %></dd>
+            <dt><%= Spree.t(:card_holder) %>:</dt>
+            <dd><%= payment.source.transaction_response.payment["card_holder"] %></dd>
+            <dt><%= Spree.t(:card) %>:</dt>
+            <dd>XXXX-XXXX-XXXX-<%= payment.source.transaction_response.payment["last4"] %></dd>
+            <dt><%= Spree.t(:expiration) %>:</dt>
+            <dd><%= payment.source.transaction_response.payment["expire_month"] %>/<%= payment.source.transaction_response.payment["expire_year"] %></dd>
+            <dt><%= Spree.t(:country) %>:</dt>
+            <dd><%= payment.source.transaction_response.payment["country"] %></dd>
+            <dt><%= Spree.t(:card_type) %>:</dt>
+            <dd><%= payment.source.transaction_response.payment["card_type"] %></dd>
+          </dl>
+        </div>
       </div>
-    </div>
+    <% elsif payment.source.transaction_response.payment["type"] == "debit"%>
+      <legend align="center"><%= Spree.t(:debit) %></legend>
+      <div class="row">
+        <div class="alpha twelve columns">
+          <dl>
+            <dt><%= Spree.t(:transaction) %>:</dt>
+            <dd><%= link_to payment.source.transaction_id, "https://app.paymill.com/transactions/#{payment.source.transaction_id}", target: "_blank" %></dd>
+            <dt><%= Spree.t(:account_holder) %>:</dt>
+            <dd><%= payment.source.transaction_response.payment["holder"] %></dd>
+            <dt><%= Spree.t(:bank_code) %>:</dt>
+            <dd><%= payment.source.transaction_response.payment["code"] %></dd>
+            <dt><%= Spree.t(:account) %>:</dt>
+            <dd><%= payment.source.transaction_response.payment["account"] %></dd>
+            <dt><%= Spree.t(:iban) %>:</dt>
+            <dd><%= payment.source.transaction_response.payment["iban"] %></dd>
+            <dt><%= Spree.t(:bic) %>:</dt>
+            <dd><%= payment.source.transaction_response.payment["bic"] %></dd>
+          </dl>
+        </div>
+      </div>
+    <% end %>
+    
   <% else %>
     <legend align="center">No payment details available</legend>
   <% end %>
