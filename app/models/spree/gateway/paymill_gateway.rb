@@ -93,6 +93,21 @@ module Spree
     def auto_capture?
       true
     end
+
+    def refund(payment, amount)
+      #noop
+    end
+
+    def empty_success
+      Class.new do
+        def success?; true; end
+        def authorization; nil; end
+      end.new
+    end
+
+    def cancel(response)
+      empty_success
+    end
   end
 end
 
